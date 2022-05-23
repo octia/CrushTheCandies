@@ -2,20 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SlashCandy.Audio;
 using Random = UnityEngine.Random;
 
 namespace SlashCandy
 {
     public class Board
     {
-        /// <summary>
-        /// Board Singleton.
-        /// </summary>
-        public static Board Instance
-        {
-            get;
-            private set;
-        }
+
 
         public Vector2Int _size;
         protected BoardSlot[,] _objectBoard;
@@ -48,12 +42,6 @@ namespace SlashCandy
         {
             _size = size;
             _worldSize = worldSize;
-            if (Instance != null)
-            {
-                Debug.LogError("Board instance already exists!");
-                return;
-            }
-            Instance = this;
 
             _objectBoard = new BoardSlot[_size.x, _size.y];
             _toFillMapWith = toFillWith;
@@ -382,6 +370,7 @@ namespace SlashCandy
         // TODO: replace with an animation(?)
         private void SwapGOPositions(BoardSlot obj1, BoardSlot obj2)
         {
+            AudioSystem.PlayOnCandySwap();
             Vector3 pos1 = obj1.candyManager.transform.position;
             Vector3 pos2 = obj2.candyManager.transform.position;
 

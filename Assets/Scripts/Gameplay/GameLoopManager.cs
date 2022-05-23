@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SlashCandy.Audio;
 namespace SlashCandy
 {
     public class GameLoopManager : MonoBehaviour
@@ -43,6 +44,7 @@ namespace SlashCandy
         // Start is called before the first frame update
         void Start()
         {
+            AudioSystem.PlayBackgroundMusic();
             SwapDetector.Init(Vector2.one * worldSize, Vector2Int.one * mapSize, _boardGO, _gameplayRect,gameplayCamera, mainCamera);
             StartCoroutine(GameLoop());
         }
@@ -64,6 +66,7 @@ namespace SlashCandy
                     automaticActionComboCount++;
                     // IncrementAndUpdateScore();
                     score += multipledObjectsSet.Count;
+                    AudioSystem.PlayOnScoreIncrease();
                     scoreContainer.text = score.ToString();
                     yield return StartCoroutine(PreformAutomaticActions(multipledObjectsSet));
                 }
@@ -163,6 +166,7 @@ namespace SlashCandy
                             }
                             else
                             {
+
                                 if (_board.IsSwapAllowed(object1, object2))
                                 {
                                     yield return StartCoroutine(_board.PreformSwap(object1, object2));
